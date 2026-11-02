@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Edgerunners skin: menu row text and icons, cyan at rest and black on the yellow selected row. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:color="#FF0A0A0A" />
+    <item android:color="#FF00F0FF" />
+</selector>

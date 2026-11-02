@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Edgerunners skin: Launcher settings choice text - black on the focused yellow block, cyan when selected, light
+     otherwise. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:color="#FF0A0A0A" />
+    <item android:state_selected="true" android:color="#FF00F0FF" />
+    <item android:color="#E6DDF6FA" />
+</selector>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Edgerunners skin: the selected menu row is a solid neon yellow block with a cyan bar on its left edge, as in the
+     Cyberpunk menus. The original is in work\orig-res\drawable_input_row_bg.xml. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#FFFCEE0A" />
+                    <corners android:radius="2dp" />
+                </shape>
+            </item>
+            <item android:width="4dp" android:gravity="start|fill_vertical">
+                <shape android:shape="rectangle">
+                    <solid android:color="#FF00F0FF" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000" />
+            <corners android:radius="2dp" />
+        </shape>
+    </item>
+</selector>

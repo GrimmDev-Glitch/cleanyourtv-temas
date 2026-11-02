@@ -1,0 +1,17 @@
+{
+  "background_color": "#05060A",
+  "festival": "edgerunners",
+  "accent_color": "#FCEE0A",
+  "wallpaper": true,
+  "wallpaper_dim": 40,
+  "single_row": true,
+  "dock_band_all": true,
+  "columns": 6,
+  "dock_glass": true,
+  "dock_opacity": 70,
+  "app_glow": true,
+  "glass_style": "halo",
+  "header_white": true,
+  "back_opens_clock": true,
+  "show_stats": true
+}

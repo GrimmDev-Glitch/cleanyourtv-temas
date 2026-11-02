@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Edgerunners skin: Launcher settings choices as Cyberpunk menu entries. Focused: a solid neon yellow block with a
+     cyan bar on its left edge. Selected: a cyan edge and bar on the dark teal panel. Rest: dark teal with a faint cyan
+     edge. The original is in work\orig-res\drawable_settings_choice_bg.xml. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#FFFCEE0A" />
+                    <corners android:radius="2dp" />
+                </shape>
+            </item>
+            <item android:width="5dp" android:gravity="start|fill_vertical">
+                <shape android:shape="rectangle">
+                    <solid android:color="#FF00F0FF" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_selected="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#E6082833" />
+                    <stroke android:width="1.5dp" android:color="#FF00F0FF" />
+                    <corners android:radius="2dp" />
+                </shape>
+            </item>
+            <item android:width="4dp" android:gravity="start|fill_vertical">
+                <shape android:shape="rectangle">
+                    <solid android:color="#FF00F0FF" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#E6061A20" />
+            <stroke android:width="1dp" android:color="#5500F0FF" />
+            <corners android:radius="2dp" />
+        </shape>
+    </item>
+</selector>
