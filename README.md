@@ -1,3 +1,5 @@
+<p align="center"><b>Español</b> · <a href="README.en.md">English</a></p>
+
 # CleanYourTV Temas
 
 Temas para tu Android TV / Google TV: una pantalla de inicio propia, limpia y personalizable, con efectos,
