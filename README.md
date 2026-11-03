@@ -25,16 +25,93 @@ El primer tema es **Edgerunners**, de estilo Cyberpunk (ver [`themes/edgerunners
 - **Intro** al encender ("INICIANDO SISTEMA…") y menús, panel rápido y ajustes con el mismo estilo.
 - Barras de **señal Wi-Fi**, tipografía Rajdhani en negrita.
 
+## Instálalo con Claude o Gemini (recomendado)
+
+La forma más fácil: copia el prompt de abajo y pégalo en un asistente de IA **que pueda usar la terminal de tu
+computadora**, como [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+o Codex. El asistente te pregunta qué TV tienes, revisa si es compatible y hace todo contigo paso a paso,
+comprobando cada cambio con capturas de tu TV.
+
+> Los chats normales del navegador (claude.ai, gemini.google.com) **no sirven**: no pueden conectarse a tu TV.
+> Necesitas la versión de terminal, en una computadora conectada a la misma red Wi-Fi que la TV.
+
+```text
+Quiero instalar el tema "Edgerunners" de CleanYourTV Temas en mi televisor o TV box con Android. Ayúdame paso a
+paso, trabajando en mi TV real por ADB, y comprueba cada cambio con capturas de pantalla sacadas de la TV.
+Háblame en español y en palabras sencillas: no soy experto. Pregúntame antes de cualquier cosa que dependa de mis
+gustos, antes de descargar algo y antes de aceptar licencias.
+
+El proyecto está en https://github.com/GrimmDev-Glitch/cleanyourtv-temas. Clónalo (o descarga el ZIP si no hay
+git) y trabaja desde esa carpeta, usando sus scripts de tools/ y launcher/ en vez de escribir los tuyos. Antes de
+empezar lee README.md, AGENTS.md, PROMPT.md y themes/edgerunners/README.md.
+
+1. Lo primero
+- Pregúntame qué marca y modelo de televisor o TV box tengo, y qué computadora uso (Windows, Mac o Linux).
+- Dime si es compatible. Funciona en Android TV y Google TV con Android 8 o más nuevo (Xiaomi, TCL, Hisense,
+  Sony, Philips, onn, Chromecast con Google TV, Nvidia Shield y cajas Android TV). No funciona en Samsung
+  (Tizen), LG (webOS), Roku, Fire TV, VIDAA ni Vizio: si es una de esas, explícamelo con calma y mándame a
+  https://cleanyour.tv/not-android, que quita el rastreo con el control remoto. Si no sé qué sistema tiene,
+  ayúdame a averiguarlo en los menús de la TV.
+- Busca en examples/ si hay una carpeta para mi modelo y léela: trae avisos propios de ese equipo.
+- Explícame cómo activar las Opciones para desarrolladores y la Depuración por USB, y avísame justo antes de que
+  aparezca en la TV el aviso "¿Permitir la depuración USB?".
+
+2. Conectar y respaldar
+- Conéctate como dice la sección "Connect" de PROMPT.md (puerto 5555, depuración inalámbrica, relay si hace
+  falta). Confirma que la versión de Android es 8 o mayor (ro.build.version.sdk 26 o más); si no, detente y
+  dímelo.
+- Haz el respaldo de la sección "Back up first" de PROMPT.md antes de cambiar nada.
+
+3. Limpieza (opcional)
+- Pregúntame si además quiero quitar publicidad y rastreo. Si digo que sí, sigue PROMPT.md al pie de la letra
+  (desactivar, nunca desinstalar; por tandas pequeñas; preguntarme por mis apps). Si digo que no, sáltalo.
+
+4. Herramientas e instalación del launcher
+- En Windows: tools\preparar-herramientas.ps1 y luego tools\compilar-e-instalar.ps1 -TvHost <ip>. En Mac o
+  Linux: instala JDK 17, el Android SDK (plataforma 34 y build-tools 34) y tools/venv, y usa
+  HOME_KEY_SERVICE=1 launcher/build-and-install.sh.
+- Respeta todo lo de la sección "Launcher" de PROMPT.md: comprobar que la TV acepta APKs, la versión mínima,
+  el asistente de configuración de Google TV y su red Wi-Fi, y confirmar con mFocusedApp que el launcher quedó
+  como inicio.
+
+5. Mi tema
+- Copia themes/edgerunners a themes/mi-edgerunners (las carpetas mi-* son personales y no se suben a GitHub).
+- Pregúntame qué apps uso y en qué orden las quiero en la fila, y ponlas en dock_apps de su config.json.
+- Video de fondo: pregúntame si tengo uno y su ruta. Revisa que sea MP4 con H.264, su resolución, duración y
+  peso; pásalo por tools/strip_meta.py y guárdalo como wallpaper.mp4 en mi tema. Recuérdame usar material propio
+  o con permiso.
+- Sonidos: pregúntame si tengo los míos. Si sí, analiza su volumen para quedarte con un solo sonido sin ruido
+  al inicio (tools/trim_sounds.py, ajustando los tiempos) y guárdalos como sounds/ui_move y sounds/ui_open en mi
+  tema. Si no, se usan los sintéticos que trae el launcher.
+- Aplícalo con tools\theme.ps1 (Windows) o tools/theme.sh (Mac/Linux).
+- Activa el widget de música (cmd notification allow_listener com.gathin.tvhome/.GuardRevival) y pregúntame si
+  quiero "Night City" como protector de pantalla (screensaver_components com.gathin.tvhome/.ClockDream).
+- Ofréceme el DNS que bloquea anuncios como extra opcional, tal como lo describe PROMPT.md.
+
+6. Comprobar
+- Saca capturas y revísalas después de cada cambio. En muchas TVs el video y Netflix no salen en las capturas:
+  en ese caso pregúntame qué veo en la pantalla.
+- Pídeme que pruebe los botones reales del control (Inicio, YouTube, engranaje, Atrás); una tecla enviada por
+  ADB no basta para comprobarlos. Si alguno no funciona, revisa la sección de botones de PROMPT.md.
+- Reinicia la TV una vez y confirma que todo sigue igual.
+
+7. Cerrar
+- Cierra la depuración como dice PROMPT.md: revocar autorizaciones, apagar la depuración USB e inalámbrica, y
+  comprobar con tools/adb-closed.py que los puertos quedaron cerrados, también después de reiniciar.
+- Al final dame un resumen de lo que hiciste y de cómo deshacerlo (tools\theme.ps1 -Reset y docs/restore.md).
+```
+
 ## Qué necesitas
 
 - Una TV o caja con **Android TV / Google TV, Android 8 o más nuevo** (Samsung, LG y Roku no sirven).
   Probado en una **onn. 4K Streaming Box (Google TV 14)**.
-- Una **PC con Windows** en la misma red Wi-Fi, con [Python 3](https://www.python.org/downloads/) instalado.
-- Unos 2 GB libres en la PC para las herramientas de compilación.
+- Una **computadora** en la misma red Wi-Fi: con Windows los pasos de abajo son directos; con Mac o Linux, mejor
+  usa el prompt de arriba.
+- [Python 3](https://www.python.org/downloads/) y unos 2 GB libres para las herramientas de compilación.
 
 Todo es reversible: no se desinstala nada ni se usa root. Aun así, lo haces bajo tu propia responsabilidad.
 
-## Instalación paso a paso
+## Instalación manual paso a paso (Windows)
 
 ### 1. Activa la depuración en la TV
 

@@ -109,8 +109,14 @@ del() { echo "rm -f $DIR/$1 2>/dev/null; content delete --uri $URI/$1 2>/dev/nul
 # that left the pictures behind still shows the theme it just removed. Both paths use this one string.
 CLEAR_WALLPAPERS="rm -f $DIR/wallpapers/*.[jJ][pP][gG] $DIR/wallpapers/*.[jJ][pP][eE][gG] $DIR/wallpapers/*.[pP][nN][gG] $DIR/wallpapers/*.[wW][eE][bB][pP] 2>/dev/null; content delete --uri $URI/wallpapers 2>/dev/null"
 
+# A theme's looping video and its interface sounds (CleanYourTV themes): one wallpaper.mp4, and sounds/ui_move.* and
+# sounds/ui_open.* as wav, mp3 or ogg. A theme without them takes them off the TV (same as theme.ps1).
+SOUND_NAMES="sounds/ui_move.wav sounds/ui_move.mp3 sounds/ui_move.ogg sounds/ui_open.wav sounds/ui_open.mp3 sounds/ui_open.ogg"
+DROP_MEDIA="$(del wallpaper.mp4)"
+for name in $SOUND_NAMES; do DROP_MEDIA="$DROP_MEDIA; $(del "$name")"; done
+
 if [ "${1:-}" = --reset ]; then
-  tv "mkdir -p $DIR 2>/dev/null; $(del config.json); $(del wallpaper.jpg); $(del wallpapers/captions.txt); $CLEAR_WALLPAPERS; printf '%s' '$REVISION' > $TMP-theme_revision; $(put theme_revision)" >/dev/null
+  tv "mkdir -p $DIR 2>/dev/null; $(del config.json); $(del wallpaper.jpg); $(del wallpapers/captions.txt); $CLEAR_WALLPAPERS; $DROP_MEDIA; printf '%s' '$REVISION' > $TMP-theme_revision; $(put theme_revision)" >/dev/null
   "$PY" -I theme_restart.py
   echo reset
   exit 0
@@ -177,6 +183,19 @@ if [ -f "$THEME/wallpapers/captions.txt" ]; then
 else
   tv "$(del wallpapers/captions.txt)" >/dev/null
 fi
+# The video and the sounds: whatever the theme carries replaces what the TV had, and the rest goes.
+tv "$DROP_MEDIA" >/dev/null
+if [ -f "$THEME/wallpaper.mp4" ]; then
+  echo "sending wallpaper.mp4 (a few MB take a minute or two)"
+  "$PY" -I b64push.py "$THEME/wallpaper.mp4" "$(stage wallpaper.mp4)"
+  tv "$(put wallpaper.mp4)" >/dev/null
+fi
+for name in $SOUND_NAMES; do
+  if [ -f "$THEME/$name" ]; then
+    "$PY" -I b64push.py "$THEME/$name" "$(stage "$name")"
+    tv "$(put "$name")" >/dev/null
+  fi
+done
 tv "printf '%s' '$REVISION' > $TMP-theme_revision; $(put theme_revision)" >/dev/null
 "$PY" -I theme_restart.py
 echo applied
